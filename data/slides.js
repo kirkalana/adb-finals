@@ -22,5 +22,22 @@ module.exports = [
         subtitle: 'Find your way around',
         text: 'A comprehensive guide mapping out all academic buildings, student lounges, laboratories, and administrative offices across campus quadrangle.',
         link: '/'
+    },
+    {
+        image: 'map.jpg',
+        tag: 'Campus',
+        title: 'Campus Map',
+        subtitle: 'Find your way around',
+        text: 'A comprehensive guide mapping out all academic buildings, student lounges, laboratories, and administrative offices across campus quadrangle.',
+        link: '/'
+    },
+    {
+        image: 'map.jpg',
+        tag: 'Campus',
+        title: 'Campus Map',
+        subtitle: 'Find your way around',
+        text: 'A comprehensive guide mapping out all academic buildings, student lounges, laboratories, and administrative offices across campus quadrangle.',
+        link: '/'
     }
+    
 ];

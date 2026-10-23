@@ -21,6 +21,13 @@
             cursor: pointer;
         }
 
+        #quickActions {
+            position: static !important;
+            top: auto !important;
+            left: auto !important;
+            transform: none !important;
+        }
+
         .dashboard-stat p {
             font-size: 1.8rem;
             font-weight: bold;
@@ -77,7 +84,7 @@
         <nav>
 
             <% if (user && (user.role === 'admin' || Number(user.is_admin) === 1)) { %>
-                <span class="role-badge">Account Role: ADMIN</span>
+                <span class="role-badge">ADMIN</span>
             <% } %>
 
             <form action="/logout" method="POST" class="inline">
@@ -126,7 +133,7 @@
 
         </section>
 
-        <section class="dashboard-section">
+        <section class="dashboard-section" id="quickActions">
             <h2>Quick Actions</h2>
 
             <div class="dashboard-actions">
