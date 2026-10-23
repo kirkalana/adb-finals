@@ -20,23 +20,23 @@ module.exports = [
         tag: 'Campus',
         title: 'Campus Map',
         subtitle: 'Find your way around',
-        text: 'A comprehensive guide mapping out all academic buildings, student lounges, laboratories, and administrative offices across campus quadrangle.',
+        text: 'A detailed campus guide highlighting academic buildings, student lounges, laboratories, and administrative offices around the quadrangle.',
         link: '/'
     },
     {
-        image: 'map.jpg',
+        image: 'uygonco.jpg',
         tag: 'Campus',
-        title: 'Campus Map',
-        subtitle: 'Find your way around',
-        text: 'A comprehensive guide mapping out all academic buildings, student lounges, laboratories, and administrative offices across campus quadrangle.',
+        title: 'Dr. Felipe A. Uygongco Hall',
+        subtitle: 'Peak Building',
+        text: 'Named after one of PHINMA UI key benefactors, this modern multi-story hall houses facilities, lecture rooms, and administrative offices.',
         link: '/'
     },
     {
-        image: 'map.jpg',
+        image: 'quad.jpg',
         tag: 'Campus',
-        title: 'Campus Map',
-        subtitle: 'Find your way around',
-        text: 'A comprehensive guide mapping out all academic buildings, student lounges, laboratories, and administrative offices across campus quadrangle.',
+        title: 'The University Quadrangle',
+        subtitle: 'The bustling center of campus activities.',
+        text: 'A elevated view showing the vibrant heart of the university, and student walkways.',
         link: '/'
     }
     
