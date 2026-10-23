@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= title %> · Campus Lost &amp; Found</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="<%= typeof bodyClass !== 'undefined' ? bodyClass : '' %>">
+
+<header class="nav">
+  <a class="brand" href="/">
+    <img src="/img/logo.png" alt="Campus Lost & Found Logo">
+    <span></span>
+  </a>
+
+  <nav>
+    <a href="/">Browse</a>
+
+    <% if (user) { %>
+      <a href="/items/new?type=lost">Report Item</a>
+      <a href="/my-items">My Reports</a>
+
+      <details class="profile">
+        <summary>👤</summary>
+
+        <div class="profile-menu">
+          <strong><%= user.name %></strong>
+          <span class="muted"><%= user.email %></span>
+          <span>Year: <%= user.year_level || '-' %></span>
+          <span>Course: <%= user.course || '-' %></span>
+
+          <% if (user.role === 'admin' || Number(user.is_admin) === 1) { %>
+            <a href="/admin/dashboard" class="btn">Admin</a>
+          <% } %>
+
+          <form action="/logout" method="post">
+            <button class="btn" type="submit">Log out</button>
+          </form>
+        </div>
+      </details>
+
+    <% } else { %>
+      <a href="/login">Log in</a>
+      <a href="/register">Register</a>
+    <% } %>
+  </nav>
+</header>
+
+<main class="container">
+  <% if (flash) { %>
+    <div class="flash <%= flash.type %>">
+      <%= flash.text %>
+    </div>
+  <% } %>

@@ -1,0 +1,13 @@
+<a class="card" href="/items/<%= item.id %>">
+  <% if (item.image) { %>
+    <img src="/uploads/<%= item.image %>" alt="<%= item.title %>">
+  <% } else { %>
+    <div class="noimg">No photo</div>
+  <% } %>
+  <div class="card-body">
+    <span class="badge <%= item.type %>"><%= item.type %></span>
+    <% if (item.status === 'returned') { %><span class="badge returned">returned</span><% } %>
+    <h3><%= item.title %></h3>
+    <p class="muted"><%= item.category %> · <%= item.location %></p>
+  </div>
+</a>

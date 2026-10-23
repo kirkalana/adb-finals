@@ -1,0 +1,20 @@
+<%- include('../partials/header') %>
+<h1>Post an item</h1>
+<form method="post" action="/items" enctype="multipart/form-data" class="form narrow">
+  <label>This item was
+    <select name="type">
+      <option value="lost" <%= type === 'lost' ? 'selected' : '' %>>Lost (I'm looking for it)</option>
+      <option value="found" <%= type === 'found' ? 'selected' : '' %>>Found (I have it / saw it)</option>
+    </select>
+  </label>
+  <label>Title <input name="title" placeholder="Title" required></label>
+  <label>Category
+    <select name="category" required><% categories.forEach(c => { %><option><%= c %></option><% }) %></select>
+  </label>
+  <label>Location <input name="location" placeholder="Location" required></label>
+  <label>Date <input type="date" name="event_date"></label>
+  <label>Description <textarea name="description" rows="4" placeholder="Distinguishing features..."></textarea></label>
+  <label>Photo (max 3 MB) <input type="file" name="photo" accept="image/*"></label>
+  <button class="btn">Post</button>
+</form>
+<%- include('../partials/footer') %>

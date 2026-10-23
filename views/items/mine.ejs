@@ -1,0 +1,9 @@
+<%- include('../partials/header') %>
+<h1>My reports</h1>
+<% ['lost', 'found'].forEach(t => { const list = items.filter(i => i.type === t); %>
+  <h2><%= t === 'lost' ? 'Items Losts' : 'Items Founds' %> (<%= list.length %>)</h2>
+  <% if (!list.length) { %><p class="muted">Nothing here yet.</p><% } else { %>
+    <div class="grid"><% list.forEach(item => { %><%- include('../partials/card', { item }) %><% }) %></div>
+  <% } %>
+<% }) %>
+<%- include('../partials/footer') %>

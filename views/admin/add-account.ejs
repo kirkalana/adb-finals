@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Account</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <%- include('../partials/header') %>
+
+    <div class="container">
+        <h1>Add Account</h1>
+
+        <% if (flash) { %>
+            <p><%= flash.message || flash %></p>
+        <% } %>
+
+        <form action="/admin/accounts/add" method="POST">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+
+            <label for="course">Course</label>
+            <select id="course" name="course" required>
+                <option value="">Select Course</option>
+                <option value="BSCRIM">BSCRIM</option>
+                <option value="BSIT">BSIT</option>
+                <option value="BSTM">BSTM</option>
+                <option value="BSHM">BSHM</option>
+                <option value="BSME">BSME</option>
+                <option value="BSED">BSED</option>
+            </select>
+
+            <label for="year_level">Year Level</label>
+            <select id="year_level" name="year_level" required>
+                <option value="">Select Year</option>
+                <option value="1st Year">1st Year</option>
+                <option value="2nd Year">2nd Year</option>
+                <option value="3rd Year">3rd Year</option>
+                <option value="4th Year">4th Year</option>
+            </select>
+
+            <label for="role">Role</label>
+            <select id="role" name="role" required>
+                <option value="user">User</option>
+                <option value="admin">Admin</option>
+            </select>
+
+            <button type="submit" class="btn">Create Account</button>
+            <a href="/admin/accounts" class="btn">Cancel</a>
+        </form>
+    </div>
+</body>
+</html>

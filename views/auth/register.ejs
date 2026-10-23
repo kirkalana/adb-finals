@@ -1,0 +1,32 @@
+<%- include('../partials/header') %>
+<h1>Create an account</h1>
+<form method="post" action="/register" class="form narrow">
+  <label>User name <input name="name" placeholder="User name" required></label>
+  <label>School email
+    <input type="email" name="email" placeholder="@phinmaed.com"
+      pattern="[A-Za-z0-9._%+-]+@phinmaed\.com" title="Use your @phinmaed.com email" required>
+  </label>
+  <label>Year level
+    <select name="year_level" required>
+      <option value="" disabled selected>Select year level</option>
+      <option>1st Year</option>
+      <option>2nd Year</option>
+      <option>3rd Year</option>
+      <option>4th Year</option>
+    </select>
+  </label>
+  <label>Course
+    <select name="course" required>
+      <option value="" disabled selected>Select course</option>
+      <option>BSCRIM</option>
+      <option>BSIT</option>
+      <option>BSTM</option>
+      <option>BSHM</option>
+      <option>BSME</option>
+      <option>BSED</option>
+    </select>
+  </label>
+  <label>Password (6+ chars) <input type="password" name="password" minlength="6" placeholder="Password" required></label>
+  <button class="btn">Register</button>
+</form>
+<%- include('../partials/footer') %>

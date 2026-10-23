@@ -1,0 +1,75 @@
+<%- include('../partials/header') %>
+
+<section class="hero">
+    <h1>Lost something? Found something?</h1>
+    <p>Help students on campus get their belongings back.</p>
+</section>
+
+<%- include('../partials/slides') %>
+
+<h1>Lost &amp; found items</h1>
+
+<form method="get" action="/" class="filters">
+    <input
+        type="text"
+        name="q"
+        placeholder="Search Items"
+        value="<%= filters.q || '' %>"
+    >
+
+    <select name="type">
+        <option value="" <%= !filters.type ? 'selected' : '' %>>Lost &amp; found</option>
+        <option value="lost" <%= filters.type === 'lost' ? 'selected' : '' %>>Lost</option>
+        <option value="found" <%= filters.type === 'found' ? 'selected' : '' %>>Found</option>
+    </select>
+
+    <select name="category">
+        <option value="" <%= !filters.category ? 'selected' : '' %>>All categories</option>
+        <% categories.forEach(c => { %>
+            <option value="<%= c %>" <%= filters.category === c ? 'selected' : '' %>>
+                <%= c %>
+            </option>
+        <% }) %>
+    </select>
+
+    <input
+        type="text"
+        name="location"
+        placeholder="Location (e.g. Library)"
+        value="<%= filters.location || '' %>"
+    >
+    <button type="submit" class="btn">Filter</button>
+</form>
+
+<% if (!items || !items.length) { %>
+    <p class="muted">
+        No items match.
+        <a href="/items/new?type=lost">Report a lost item</a>
+        or
+        <a href="/items/new?type=found">a found item</a>.
+    </p>
+<% } else { %>
+    <div class="grid">
+        <% items.forEach(item => { %>
+            <%- include('../partials/card', { item: item }) %>
+        <% }) %>
+    </div>
+<% } %>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.querySelector('.filters');
+
+    if (!form) {
+        return;
+    }
+
+    form.querySelectorAll('select').forEach(function (select) {
+        select.addEventListener('change', function () {
+            form.requestSubmit();
+        });
+    });
+});
+</script>
+
+<%- include('../partials/footer') %>

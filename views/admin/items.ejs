@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Reports - Campus Lost &amp; Found</title>
+    <link rel="stylesheet" href="/css/style.css">
+
+    <style>
+        body.dashboard-bg {
+            background: #121a13;
+            color: #f5f5f5;
+        }
+
+        .reports-container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .dashboard-welcome,
+        .dashboard-section {
+            background: #1c1f28;
+            color: #f5f5f5;
+            border: 1px solid #333333;
+            border-radius: 10px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .dashboard-welcome h1,
+        .dashboard-section h2 {
+            color: #ffffff;
+        }
+
+        .dashboard-welcome p {
+            color: #cccccc;
+        }
+
+        .dashboard-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        /* Search bar */
+        .reports-search {
+            margin: 15px 0 20px;
+        }
+
+        .reports-search input {
+            width: 100%;
+            max-width: 450px;
+            padding: 12px 15px;
+            background: #ffffff;
+            color: #222222;
+            border: 1px solid #cccccc;
+            border-radius: 6px;
+            font-size: 14px;
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        .reports-search input:focus {
+            border-color: #1d8645;
+            box-shadow: 0 0 5px rgba(29, 134, 69, 0.4);
+        }
+
+        .reports-search input::placeholder {
+            color: #777777;
+        }
+
+        .reports-table-wrap {
+            overflow-x: auto;
+        }
+
+        .reports-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #1c1f28;
+            color: #f5f5f5;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .reports-table th,
+        .reports-table td {
+            padding: 14px;
+            text-align: left;
+            border-bottom: 1px solid #333333;
+        }
+
+        .reports-table th {
+            background: #1c1f28;
+            color: #ffffff;
+        }
+
+        .reports-table td {
+            background: #1c1c1c;
+            color: #f5f5f5;
+        }
+
+        .reports-table tbody tr:nth-child(even) td {
+            background: #222222;
+        }
+
+        .reports-table tbody tr:hover td {
+            background: #292929;
+        }
+
+        .reports-table strong {
+            color: #ffffff;
+        }
+
+        .report-image {
+            width: 85px;
+            height: 75px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid #444444;
+            display: block;
+        }
+
+        .no-image {
+            width: 85px;
+            height: 75px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #292929;
+            color: #cccccc;
+            border: 1px solid #444444;
+            border-radius: 8px;
+            font-size: 12px;
+        }
+
+        .report-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .report-actions form {
+            margin: 0;
+        }
+
+        .report-type,
+        .report-status {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 20px;
+            background: #333333;
+            color: #ffffff;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .report-type.lost {
+            background: #451a1a;
+            color: #fecaca;
+        }
+
+        .report-type.found {
+            background: #17351f;
+            color: #bbf7d0;
+        }
+
+        .report-status.open {
+            background: #292929;
+            color: #ffffff;
+        }
+
+        .report-status.returned {
+            background: #17351f;
+            color: #bbf7d0;
+        }
+
+        .reports-empty {
+            text-align: center !important;
+            padding: 35px !important;
+            color: #cccccc !important;
+        }
+
+        .reports-description {
+            max-width: 220px;
+            overflow-wrap: anywhere;
+            color: #cccccc;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 9px 13px;
+            background: #1d8645;
+            color: #ffffff;
+            border: 1px solid #444444;
+            border-radius: 6px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #333333;
+            color: #ffffff;
+        }
+
+        .btn.secondary {
+            background: #292929;
+            color: #ffffff;
+            border: 1px solid #444444;
+        }
+
+        .btn.secondary:hover {
+            background: #404040;
+        }
+
+        .btn.danger {
+            background: #991b1b;
+            color: #ffffff;
+            border: 1px solid #7f1d1d;
+        }
+
+        .btn.danger:hover {
+            background: #b91c1c;
+        }
+
+        /* View button - green */
+        .report-actions a.btn:not(.secondary) {
+            background: #16a34a;
+            color: #ffffff;
+            border: 1px solid #15803d;
+        }
+
+        .report-actions a.btn:not(.secondary):hover {
+            background: #15803d;
+        }
+
+        /* Edit button - sky blue */
+        .report-actions a.btn.secondary {
+            background: #0ea5e9;
+            color: #ffffff;
+            border: 1px solid #0284c7;
+        }
+
+        .report-actions a.btn.secondary:hover {
+            background: #0284c7;
+        }
+
+        .nav {
+        position: relative;
+        min-height: 60px;
+        display: flex;
+        align-items: center;
+        }
+        
+        .nav {
+            background: #1c1f28;
+            color: #ffffff;
+            border-bottom: 1px solid #333333;
+        }
+
+        .nav a {
+            color: #ffffff;
+        }
+
+        .nav a:hover {
+            color: #bbbbbb;
+        }
+
+        @media (max-width: 700px) {
+            .reports-container {
+                padding: 0 10px;
+            }
+
+            .dashboard-welcome,
+            .dashboard-section {
+                padding: 15px;
+            }
+
+            .reports-table th,
+            .reports-table td {
+                padding: 9px;
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+
+<body class="dashboard-bg">
+
+    <header class="nav">
+        <a href="/" class="brand">
+            <img src="/img/logo.png" alt="Campus Logo">
+            <span></span>
+        </a>
+
+        <nav>
+            <a href="/"></a>
+
+            <% if (user && (user.role === 'admin' || Number(user.is_admin) === 1)) { %>
+                <a href="/admin/dashboard"></a>
+                <a href="/admin/items"></a>
+                <a href="/admin/accounts"></a>
+            <% } %>
+
+            <a href="/items"></a>
+
+            <form action="/logout" method="POST" class="inline">
+                <button type="submit" class="btn danger">Logout</button>
+            </form>
+        </nav>
+    </header>
+
+    <main class="reports-container">
+
+        <h1>Manage Reports</h1>
+        <p>View and manage lost and found reports.</p>
+
+        <section class="dashboard-section">
+
+            <div class="dashboard-actions">
+                <a href="/admin/items/new" class="btn">
+                    + Add New Report
+                </a>
+
+                <a href="/admin/dashboard" class="btn secondary">
+                    Back to Dashboard
+                </a>
+            </div>
+
+        </section>
+
+        <section class="dashboard-section">
+
+            <h2>All Reports</h2>
+
+            <!-- Search Reports -->
+            <div class="reports-search">
+                <input
+                    type="text"
+                    id="reportSearch"
+                    placeholder="Search by ID, title, category, location, type, or status..."
+                    oninput="searchReports()"
+                >
+            </div>
+
+            <div class="reports-table-wrap">
+                <table class="reports-table">
+
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>ID</th>
+                            <th>Status</th>
+                            <th>Title</th>
+                            <th>Category</th>
+                            <th>Location</th>
+                            <th>Date</th>
+                            <th></th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <% if (!items || items.length === 0) { %>
+
+                            <tr>
+                                <td colspan="9" class="reports-empty">
+                                    No reports available.
+                                </td>
+                            </tr>
+
+                        <% } else { %>
+
+                            <% items.forEach(item => { %>
+
+                                <tr>
+                                    <td>
+                                        <% if (item.image) { %>
+                                            <a
+                                                href="/uploads/<%= encodeURIComponent(item.image) %>"
+                                                target="_blank"
+                                                rel="noopener"
+                                            >
+                                                <img
+                                                    src="/uploads/<%= encodeURIComponent(item.image) %>"
+                                                    alt="Report image"
+                                                    class="report-image"
+                                                    onerror="this.style.display='none'; this.parentElement.nextElementSibling.style.display='flex';"
+                                                >
+                                            </a>
+
+                                            <div class="no-image" style="display:none;">
+                                                No image
+                                            </div>
+                                        <% } else { %>
+
+                                            <div class="no-image">
+                                                No image
+                                            </div>
+
+                                        <% } %>
+                                    </td>
+
+                                    <td><%= item.id %></td>
+
+                                    <td>
+                                        <span class="report-type <%= item.type %>">
+                                            <%= item.type %>
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        <strong><%= item.title %></strong>
+
+                                        <% if (item.description) { %>
+                                            <p class="reports-description">
+                                                <%= item.description %>
+                                            </p>
+                                        <% } %>
+                                    </td>
+
+                                    <td><%= item.category %></td>
+
+                                    <td><%= item.location %></td>
+
+                                    <td>
+                                        <%= item.event_date || item.date_lost_found || 'N/A' %>
+                                    </td>
+
+                                    <td>
+                                        
+                                    </td>
+
+                                    <td>
+                                        <div class="report-actions">
+
+                                            <a
+                                                href="/items/<%= item.id %>"
+                                                class="btn"
+                                            >View</a>
+
+                                            <a
+                                                href="/admin/items/<%= item.id %>/edit"
+                                                class="btn secondary"
+                                            >Edit</a>
+
+                                            <form
+                                                action="/admin/items/<%= item.id %>/delete"
+                                                method="POST"
+                                                onsubmit="return confirm('Are you sure you want to delete this report?');"
+                                            >
+                                                <button type="submit" class="btn danger">
+                                                    Delete
+                                                </button>
+                                            </form>
+
+                                        </div>
+                                    </td>
+                                </tr>
+
+                            <% }); %>
+
+                        <% } %>
+                    </tbody>
+
+                </table>
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer class="footer"></footer>
+
+    <script>
+        function searchReports() {
+            const input = document.getElementById("reportSearch");
+            const filter = input.value.toLowerCase().trim();
+            const rows = document.querySelectorAll(".reports-table tbody tr");
+
+            rows.forEach(function(row) {
+                if (row.querySelector(".reports-empty")) {
+                    return;
+                }
+
+                const text = row.textContent.toLowerCase();
+
+                if (text.includes(filter)) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>

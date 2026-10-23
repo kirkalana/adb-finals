@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Campus Lost &amp; Found</title>
+    <link rel="stylesheet" href="/css/style.css">
+
+    <style>
+        .dashboard-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .dashboard-actions .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .dashboard-stat p {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body class="dashboard-bg">
+
+    <header class="nav">
+        <a href="/" class="brand">
+            <img src="/img/logo.png" alt="Campus Logo">
+            <span></span>
+        </a>
+
+        <nav>
+            <a href="/"></a>
+
+            <% if (user && (user.role === 'admin' || Number(user.is_admin) === 1)) { %>
+                <a href="/admin/dashboard"></a>
+                <a href="/admin/items"></a>
+            <% } %>
+
+            <a href="/items"></a>
+
+            <form action="/logout" method="POST" class="inline">
+                <button type="submit" class="btn danger">Logout</button>
+            </form>
+        </nav>
+    </header>
+
+    <main class="dashboard-container">
+
+        <section class="dashboard-welcome">
+            <h1>
+                Welcome, Admin <%= user ? user.name : 'Admin' %>!
+            </h1>
+
+            <p>
+                Manage Campus Lost &amp; Found reports and registered users.
+            </p>
+        </section>
+
+        <section class="dashboard-stats">
+
+            <div class="dashboard-stat">
+                <h3>Total Registered Users</h3>
+                <p><%= userTotal %></p>
+            </div>
+
+            <div class="dashboard-stat lost">
+                <h3>Total Items</h3>
+                <p><%= itemTotal %></p>
+            </div>
+
+            <div class="dashboard-stat found">
+                <h3>Account Role</h3>
+                <p style="font-size: 1.5rem;">ADMIN</p>
+            </div>
+
+        </section>
+
+        <section class="dashboard-section">
+            <h2>Quick Actions</h2>
+
+            <div class="dashboard-actions">
+
+                <a href="/admin/items" class="btn">
+                    Reports
+                </a>
+
+                <a href="/admin/accounts" class="btn">
+                    Manage Accounts
+                </a>
+
+                <a href="/" class="btn secondary">
+                    Visit Homepage
+                </a>
+
+                <a href="/items/new?type=lost" class="btn found-btn">
+                    Report an Item
+                </a>
+
+            </div>
+        </section>
+
+        <section class="dashboard-section">
+            <h2>Admin Information</h2>
+
+            <p>
+                You are logged in to the administrator dashboard.
+            </p>
+
+            <p class="muted">
+                Use Reports to view, add, edit, and delete lost and found reports.
+                Use Manage Accounts to review registered users.
+            </p>
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        Campus Lost &amp; Found
+    </footer>
+
+</body>
+</html>

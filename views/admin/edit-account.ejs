@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Account</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <%- include('../partials/header') %>
+
+    <div class="container">
+        <h1>Edit Account</h1>
+
+        <% if (flash) { %>
+            <p><%= flash.message || flash %></p>
+        <% } %>
+
+        <form action="/admin/accounts/edit/<%= account.id %>" method="POST">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" name="name"
+                   value="<%= account.name %>" required>
+
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email"
+                   value="<%= account.email %>" required>
+
+            <label for="course">Course</label>
+            <select id="course" name="course" required>
+                <option value="BSCRIM" <%= account.course === 'BSCRIM' ? 'selected' : '' %>>BSCRIM</option>
+                <option value="BSIT" <%= account.course === 'BSIT' ? 'selected' : '' %>>BSIT</option>
+                <option value="BSTM" <%= account.course === 'BSTM' ? 'selected' : '' %>>BSTM</option>
+                <option value="BSHM" <%= account.course === 'BSHM' ? 'selected' : '' %>>BSHM</option>
+                <option value="BSME" <%= account.course === 'BSME' ? 'selected' : '' %>>BSME</option>
+                <option value="BSED" <%= account.course === 'BSED' ? 'selected' : '' %>>BSED</option>
+            </select>
+
+            <label for="year_level">Year Level</label>
+            <select id="year_level" name="year_level" required>
+                <option value="1st Year" <%= account.year_level === '1st Year' ? 'selected' : '' %>>1st Year</option>
+                <option value="2nd Year" <%= account.year_level === '2nd Year' ? 'selected' : '' %>>2nd Year</option>
+                <option value="3rd Year" <%= account.year_level === '3rd Year' ? 'selected' : '' %>>3rd Year</option>
+                <option value="4th Year" <%= account.year_level === '4th Year' ? 'selected' : '' %>>4th Year</option>
+            </select>
+
+            <label for="role">Role</label>
+            <select id="role" name="role" required>
+                <option value="user" <%= account.role === 'user' ? 'selected' : '' %>>User</option>
+                <option value="admin" <%= account.role === 'admin' ? 'selected' : '' %>>Admin</option>
+            </select>
+
+            <button type="submit" class="btn">Save Changes</button>
+            <a href="/admin/accounts" class="btn">Cancel</a>
+        </form>
+    </div>
+</body>
+</html>

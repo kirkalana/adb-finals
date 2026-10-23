@@ -1,0 +1,126 @@
+<% if (typeof slides !== 'undefined' && slides.length) { %>
+<section class="cf" aria-label="Campus Guide">
+  <h2>Campus Guide</h2>
+
+  <div class="cf-stage" id="cfStage">
+    <button class="cf-arrow prev" type="button" aria-label="Previous">&#10094;</button>
+
+    <% slides.forEach(s => { %>
+      <a class="cf-card" href="<%= s.link || '#' %>">
+        <img class="cf-img" src="/img/slides/<%= s.image %>" alt="<%= s.title %>">
+        <div class="cf-body">
+          <% if (s.tag) { %><span class="cf-tag"><%= s.tag %></span><% } %>
+          <h3><%= s.title %></h3>
+          <p class="cf-meta"><%= s.subtitle || '' %></p>
+          <p class="cf-desc"><%= s.text || '' %></p>
+        </div>
+      </a>
+    <% }) %>
+
+    <button class="cf-arrow next" type="button" aria-label="Next">&#10095;</button>
+  </div>
+
+  <div class="cf-dots" id="cfDots">
+    <% slides.forEach((s, i) => { %><button type="button" aria-label="Go to slide <%= i + 1 %>"></button><% }) %>
+  </div>
+</section>
+
+<style>
+.cf { margin: 0 0 32px; }
+.cf h2 { margin: 0 0 8px; }
+
+.cf-stage { position: relative; height: 520px; overflow: hidden; }
+
+.cf-card {
+  position: absolute; left: 50%; top: 50%;
+  width: 290px; height: 410px;
+  border-radius: 18px; overflow: hidden;
+  background: #1c1f28; color: #ffffff; text-decoration: none;
+  box-shadow: 0 12px 30px rgba(0,0,0,.4);
+  transition: transform .45s ease, opacity .45s ease, filter .45s ease;
+}
+.cf-img { width: 100%; height: 190px; object-fit: cover; display: block; }
+.cf-body { padding: 14px 18px; }
+.cf-body h3 { margin: 8px 0 2px; font-size: 1.2rem; color: inherit;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cf-meta { margin: 0; font-size: .92rem; opacity: .85; }
+.cf-desc { display: none; }
+
+.cf-card[data-pos="0"]  { transform: translate(-50%,-50%) scale(1.1); z-index: 3; }
+.cf-card[data-pos="-1"] { transform: translate(calc(-50% - 250px),-50%) scale(.88); z-index: 2; filter: brightness(.75); }
+.cf-card[data-pos="1"]  { transform: translate(calc(-50% + 250px),-50%) scale(.88); z-index: 2; filter: brightness(.75); }
+.cf-card[data-pos="-2"] { transform: translate(calc(-50% - 440px),-50%) scale(.74); z-index: 1; filter: brightness(.55); }
+.cf-card[data-pos="2"]  { transform: translate(calc(-50% + 440px),-50%) scale(.74); z-index: 1; filter: brightness(.55); }
+.cf-card[data-pos="hidden"] { transform: translate(-50%,-50%) scale(.5); opacity: 0; pointer-events: none; }
+
+.cf-card[data-pos="0"] { background: #ffffff; color: #1f2430; }
+.cf-card[data-pos="0"] .cf-desc {
+  display: block; margin: 10px 0 0; font-size: .95rem; line-height: 1.5;
+  max-height: 150px; overflow-y: auto;
+}
+
+.cf-tag {
+  display: inline-block; font-size: .74rem; font-weight: 600; text-transform: uppercase;
+  padding: 2px 10px; border-radius: 99px; background: #dcfce7; color: #166534;
+}
+
+.cf-arrow {
+  position: absolute; top: 50%; transform: translateY(-50%); z-index: 5;
+  width: 42px; height: 42px; border: 0; border-radius: 50%;
+  background: #ffffff; color: #1f2430; cursor: pointer; font-size: 1.05rem;
+}
+.cf-arrow.prev { left: 6px; }
+.cf-arrow.next { right: 6px; }
+
+.cf-dots { display: flex; justify-content: center; gap: 9px; margin-top: 4px; }
+.cf-dots button { width: 10px; height: 10px; padding: 0; border: 0; border-radius: 50%;
+  background: rgba(255,255,255,.45); cursor: pointer; }
+.cf-dots button.on { background: #ffffff; }
+
+@media (max-width: 800px) {
+  .cf-stage { height: 480px; }
+  .cf-card { width: 260px; height: 380px; }
+  .cf-img { height: 170px; }
+  .cf-card[data-pos="-1"] { transform: translate(calc(-50% - 190px),-50%) scale(.8); }
+  .cf-card[data-pos="1"]  { transform: translate(calc(-50% + 190px),-50%) scale(.8); }
+  .cf-card[data-pos="-2"], .cf-card[data-pos="2"] { opacity: 0; pointer-events: none; }
+}
+</style>
+
+<script>
+(function () {
+  const stage = document.getElementById('cfStage');
+  if (!stage) return;
+  const cards = [...stage.querySelectorAll('.cf-card')];
+  const dots = [...document.querySelectorAll('#cfDots button')];
+  const n = cards.length;
+  const half = Math.floor(n / 2);
+  let cur = 0, timer;
+
+  function render() {
+    cards.forEach((c, i) => {
+      const off = ((i - cur + n + half) % n) - half;
+      c.dataset.pos = Math.abs(off) > 2 ? 'hidden' : off;
+    });
+    dots.forEach((d, i) => d.classList.toggle('on', i === cur));
+  }
+  const go = d => { cur = (cur + d + n) % n; render(); };
+  function restart() { clearInterval(timer); timer = setInterval(() => go(1), 4500); }
+
+  stage.querySelector('.prev').addEventListener('click', () => { go(-1); restart(); });
+  stage.querySelector('.next').addEventListener('click', () => { go(1); restart(); });
+  dots.forEach((d, i) => d.addEventListener('click', () => { cur = i; render(); restart(); }));
+
+  cards.forEach((c, i) => c.addEventListener('click', e => {
+    if (c.dataset.pos !== '0') { e.preventDefault(); cur = i; render(); restart(); }
+    else if (c.getAttribute('href') === '#') { e.preventDefault(); }
+  }));
+
+  stage.addEventListener('mouseenter', () => clearInterval(timer));
+  stage.addEventListener('mouseleave', restart);
+
+  render();
+  restart();
+})();
+</script>
+<% } %>
